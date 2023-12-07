@@ -25,17 +25,17 @@ public class JpaMain {
 //            // code (수정)
 //            Member findMember = em.find(Member.class, 1L);
 //            findMember.setName("HelloJPA");
-
-            // 전체 조회를 한다면? => JPQL
-            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-                                    .setFirstResult(1) // paging
-                                    .setMaxResults(8) // paging
-                                    .getResultList();
-            // Member 객체를 대상으로 쿼리를 작성한다!
-
-            for (Member member : result) {
-                System.out.println("member.name =" + member.getName());
-            }
+//
+//            // 전체 조회를 한다면? => JPQL
+//            List<Member> result = em.createQuery("select m from Member as m", Member.class)
+//                                    .setFirstResult(1) // paging
+//                                    .setMaxResults(8) // paging
+//                                    .getResultList();
+//            // Member 객체를 대상으로 쿼리를 작성한다!
+//
+//            for (Member member : result) {
+//                System.out.println("member.name =" + member.getName());
+//            }
 
 
             tx.commit();
