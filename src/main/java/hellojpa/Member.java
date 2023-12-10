@@ -4,17 +4,14 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-//@SequenceGenerator(name = "member_seq_generator", sequenceName = "member_seq") // sequence전략
-@TableGenerator(
-        name = "MEMBER_SQ_GENERATOR",
-        table = "MY_SEQUENCE",
-        pkColumnName = "MEMBER_SEQ", allocationSize = 1)
+@SequenceGenerator(
+        name = "MEMBER_SEQ_GENERATOR",
+        sequenceName = "MEMBER_SEQ",
+        allocationSize = 1)
 public class Member {
 
-    @Id // 직접 할당시 사용
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEMBER_SQ_GENERATOR") // DB방언에 따라 달라짐
-    // GenerationType.IDENTITY // DB에 위임
-    // GenerationType.SEQUENCE // Sequence 객체를 생성
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEMBER_SEQ_GENERATOR")
     private Long id;
     @Column(name = "name", nullable = false)
     private String username;
