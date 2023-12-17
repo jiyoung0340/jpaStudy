@@ -41,5 +41,6 @@ public class Member {
 
     public void setTeam(Team team) {
         this.team = team;
+        team.getMembers().add(this); // 연관관계 편의 메소드를 제공 -> 이름은 setTeam말고 changeTeam이런식으로 변경한다!
     }
 }

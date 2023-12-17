@@ -15,8 +15,27 @@ public class JpaMain {
         tx.begin();
 
         try {
+/*
+            // 실수1. 연관관계의 주인에 값을 입력하지 않음
+            Member member = new Member();
+            member.setUsername("member1");
+            em.persist(member);
+
             Team team = new Team();
-            team.setName ("TeamA");
+            team.setName("TeamA");
+            team.getMembers().add(member);
+            em.persist(team);
+
+         [결과]
+                SELECT * FROM MEMBER;
+                    MEMBER_ID  	USERNAME  	TEAM_ID
+                        1	    member1	     null   => null값으로 저장됨
+                select * from team;
+                      TEAM_ID  	    NAME
+                        2	        TeamA
+ */
+            Team team = new Team();
+            team.setName("TeamA");
             em.persist(team);
 
             Member member = new Member();
@@ -24,15 +43,9 @@ public class JpaMain {
             member.setTeam(team);
             em.persist(member);
 
+
             em.flush();
             em.clear();
-
-            Member findMember = em.find(Member.class, member.getId());
-            List<Member> members = findMember.getTeam().getMembers();
-            for(Member m : members){
-                System.out.println("m = " + m.getUsername());
-            }
-
 
             tx.commit();
         } catch (Exception e) {
