@@ -2,6 +2,8 @@ package jpabook.jpashop.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="ORDERS")
@@ -10,21 +12,27 @@ public class Order {
     @Column(name="ORDER_ID")
     private Long id;
 
-    @Column(name="MEMBER_ID")
-    // (1) 객체지향에 맞는 설계보다는 관계형 데이터베이스에 맞춘 설계라고 볼 수 있다.
-    private Long memberId;
+//    @Column(name="MEMBER_ID")
+//    // (1) 객체지향에 맞는 설계보다는 관계형 데이터베이스에 맞춘 설계라고 볼 수 있다.
+//    private Long memberId;
 
     @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    public Member getMember() {
-        return member;
-    }
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     private LocalDateTime orderDate;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
+    // 양방향 연관관계일 경우 연관관계 편의 메소드를 추가한다.
+    public void addOrderItems(OrderItem orderItem) {
+         orderItems.add(orderItem);
+         orderItem.setOrder(this); // order쪽 관계를 위해서 set(this)해줌
+    }
 
     public Long getId() {
         return id;
@@ -34,12 +42,12 @@ public class Order {
         this.id = id;
     }
 
-    public Long getMemberId() {
-        return memberId;
+    public Member getMember() {
+        return member;
     }
 
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     public LocalDateTime getOrderDate() {
