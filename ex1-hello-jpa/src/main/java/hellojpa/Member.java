@@ -12,7 +12,7 @@ public class Member {
     private String username;
 
     @ManyToOne
-    @JoinColumn(name = "TEAM_ID")
+    @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false) // 관계의 주인이지만 조회만 가능하도록 제약을 걸어버림.
     private Team team;
 
     public Long getId() {
