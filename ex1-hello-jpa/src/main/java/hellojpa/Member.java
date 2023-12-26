@@ -18,18 +18,6 @@ public class Member extends BaseEntity{
     @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false) // 관계의 주인이지만 조회만 가능하도록 제약을 걸어버림.
     private Team team;
 
-    @OneToOne
-    @JoinColumn(name = "LOCKER_ID ")
-    private Locker locker;
-
-//    // 다대다 연결
-//    @ManyToMany
-//    @JoinTable(name = "MEMBER_PRODUCT")
-//    private List<Product> products = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<MemberProduct> memberProducts = new ArrayList<>();
-
     public Long getId() {
         return id;
     }
@@ -46,4 +34,11 @@ public class Member extends BaseEntity{
         this.username = username;
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 }
