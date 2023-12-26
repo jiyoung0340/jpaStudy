@@ -27,8 +27,8 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            Movie findMovie = em.find(Movie.class, movie.getId()); // join을 해서 select함
-            System.out.println("Movie : " + findMovie);
+            Item item = em.find(Item.class, movie.getId()); // join을 해서 select함
+            System.out.println("Item : " + item);
 
             tx.commit();
         } catch (Exception e) {
