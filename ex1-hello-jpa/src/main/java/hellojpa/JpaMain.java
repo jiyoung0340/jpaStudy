@@ -29,14 +29,25 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            Member m = em.find(Member.class, member.getId());
+//            Member m = em.find(Member.class, member.getId());
+//
+//            System.out.println("m.getTeam().getClass() = " + m.getTeam().getClass()); // Team 객체
+//
+//            System.out.println("===================");
+//            m.getTeam().getName(); // 조회 쿼리 안나감
+//            System.out.println("===================");
 
-            System.out.println("m.getTeam().getClass() = " + m.getTeam().getClass()); // proxy객체
+            // JPQL N+1 문제 예시
+            List<Member> resultList = em.createQuery("select m from Member m ", Member.class).getResultList();
+            // JPQL은 쿼리를 SQL 그대로 번역함.
+            // 따라서 Member를 조회할 때, SELECT * FROM MEMBER; 가 그대로 실행되고
+            // EAGER로 연결된 Team이 따로 쿼리가 또 나감.
+            // SQL : select * from Team where TEAM_ID = ***
+            // 최초 쿼리가 (1) 외에 N개의 쿼리가 나감
 
-            System.out.println("===================");
-            m.getTeam(); // 은 아직 프록시객체를 사용!
-            m.getTeam().getName(); // 이때 DB에서 객체를 가져옴!
-            System.out.println("===================");
+//            // FetchJoin
+//            List<Member> resultList_fetchjoin = em.createQuery("select m from Member m join fetch m.team", Member.class).getResultList();
+
 
             tx.commit();
         } catch (Exception e) {
