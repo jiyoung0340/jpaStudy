@@ -14,8 +14,8 @@ public class Member extends BaseEntity{
     @Column (name = "USERNAME")
     private String username;
 
-    @ManyToOne
-    @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false) // 관계의 주인이지만 조회만 가능하도록 제약을 걸어버림.
+    @ManyToOne(fetch = FetchType.LAZY) // member Class만 DB에서 조회함
+    @JoinColumn(name = "TEAM_ID")
     private Team team;
 
     public Long getId() {

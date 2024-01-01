@@ -13,13 +13,6 @@ public class Team {
 
     @OneToMany
     @JoinColumn(name = "TEAM_ID")
-    /*
-    * JoinColumn을 사용 안하면
-    * create table Team_Member (
-       Team_TEAM_ID bigint not null,
-      )
-      * 중간 테이블이 생김
-    * */
     private List<Member> members = new ArrayList<>();
 
     public Long getId() {
