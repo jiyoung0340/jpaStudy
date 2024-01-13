@@ -17,37 +17,25 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Team team = new Team();
-            team.setName("team1");
-            em.persist(team);
 
-            Member member = new Member();
-            member.setUsername("hello1");
-            member.setTeam(team);
-            em.persist(member);
+            Parent parent = new Parent();
+            Child child1 = new Child();
+            Child child2 = new Child();
+
+            parent.addChild(child1);
+            parent.addChild(child2);
+
+            // 일반적으로 persist를 여러번 해야함
+            // parent를 중심으로 child가 자동으로 persist 되려면?
+            em.persist(parent);
+//            em.persist(child1);
+//            em.persist(child2);
 
             em.flush();
             em.clear();
 
-//            Member m = em.find(Member.class, member.getId());
-//
-//            System.out.println("m.getTeam().getClass() = " + m.getTeam().getClass()); // Team 객체
-//
-//            System.out.println("===================");
-//            m.getTeam().getName(); // 조회 쿼리 안나감
-//            System.out.println("===================");
-
-            // JPQL N+1 문제 예시
-            List<Member> resultList = em.createQuery("select m from Member m ", Member.class).getResultList();
-            // JPQL은 쿼리를 SQL 그대로 번역함.
-            // 따라서 Member를 조회할 때, SELECT * FROM MEMBER; 가 그대로 실행되고
-            // EAGER로 연결된 Team이 따로 쿼리가 또 나감.
-            // SQL : select * from Team where TEAM_ID = ***
-            // 최초 쿼리가 (1) 외에 N개의 쿼리가 나감
-
-//            // FetchJoin
-//            List<Member> resultList_fetchjoin = em.createQuery("select m from Member m join fetch m.team", Member.class).getResultList();
-
+            Parent findParent = em.find(Parent.class, parent.getId());
+            findParent.getChildList().remove(0);
 
             tx.commit();
         } catch (Exception e) {
